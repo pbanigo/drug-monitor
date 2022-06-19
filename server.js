@@ -14,8 +14,8 @@ app.use(express.static('assets'));
 app.use(morgan('tiny'));
 
 app.get('/', function(req, res) {//this listens for a get request for "/" the homepage
-  //res.render('index.ejs'); //tells server to respond with index.ejs (.ejs is optional)
-  res.render('temp');
+  res.render('index.ejs'); //tells server to respond with index.ejs (.ejs is optional)
+  //res.render('temp');
 })
 
 app.listen(PORT, function() {//specifies port to listen on

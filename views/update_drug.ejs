@@ -1,0 +1,43 @@
+<!-- add header -->
+<%- include('includes/_header') %>
+<!-- end header -->
+<!-- Main section -->
+<main id="main">
+  <a href="/">
+    <span class="text-gradient"> All Drugs</span>
+  </a>
+
+<h2>Edit Drug</h2>
+<span>Use the below form to edit a drug</span>
+ <!-- Update drug form -->
+ <form method="POST" id="update_drug">
+    <div class="new_drug">
+        <div class="form-group">             
+            <label for="name" class="text-light">Drug Name</label>
+            <input type="hidden" name="id" value="<%= drug._id %>">
+            <input type="text" name="name" value="<%= drug.name %>" placeholder="Drug Name">
+        </div>
+        <div class="form-group">
+            <label for="card" class="text-light">Tablets per Card</label>
+            <input type="number" name="card" value="" placeholder="Tablets per Card" min="1" max="500">
+        </div>
+        <div class="form-group">
+            <label for="pack" class="text-light">Tablets per Pack</label>
+            <input type="number" name="pack" value="" placeholder="Tablets per Pack" min="1" max="500">
+        </div>
+        <div class="form-group">
+            <label for="perDay" class="text-light">Taken per day</label>
+            <input type="number" name="perDay" value="" placeholder="Taken per day" min="1" max="500">
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Edit Drug</button>
+        </div>
+
+    </div>
+</form>
+</main>
+<!-- End main section -->
+<!-- add footer -->
+<%- include('includes/_footer') %>
+<!-- end footer
