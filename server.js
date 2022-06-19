@@ -3,6 +3,7 @@ const app = express(); //this assigns express to the variable "app" - anything e
 const bodyParser = require('body-parser');//body-parser makes it easier to deal with request content by making it easier to use
 const dotenv = require('dotenv').config();//indicates we would be using .env
 const morgan = require('morgan');//this logs requests so you can easily troubleshoot
+const connectMongo = require('./server/database/connect');//requires connect.js file
 const PORT = process.env.PORT || 3100; //uses either what's in our env or 3100 as our port (you can use any unused port)
 
 app.set('view engine', 'ejs');//Put before app.use, etc. Lets us use EJS for views
@@ -13,18 +14,11 @@ app.use(express.static('assets'));
 //use morgan to log http requests
 app.use(morgan('tiny'));
 
-app.get('/', function(req, res) {//this listens for a get request for "/" the homepage
-  res.render('index.ejs'); //tells server to respond with index.ejs (.ejs is optional)
-  //res.render('temp');
-})
+//connect to Database
+connectMongo(); 
 
-
-app.get('/add-drug', function(req, res) {//this listens for a get request for "/add-drug" from any hyperlink
-  res.render('add_drug'); //tells server to respond with add_drug.ejs (.ejs is optional)
-})
-app.get('/update-drug', function(req, res) {
-  res.render('update_drug'); 
-})
+//load the routes
+app.use('/',require('./server/routes/routes'));//Pulls the routes file whenever this is loaded
 
 
 app.listen(PORT, function() {//specifies port to listen on
