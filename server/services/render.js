@@ -1,8 +1,10 @@
 const axios = require('axios');//http client used for making client & server side http requests in node
+const PORT = process.env.PORT || 3100; //uses either what's in our env or 3100 as our port (you can use any unused port)
+const BASE_URI = process.env.BASE_URI || 'http://localhost'; //uses either what's in our env or 3100 as our port (you can use any unused port)
 
 exports.homeRoutes= function(req, res) {
     // Make a get request to /api/users
-    axios.get(`${process.env.BASE_URI}:${process.env.PORT}/api/drugs`)//get request to pull drugs
+    axios.get(`${BASE_URI}:${PORT}/api/drugs`)//get request to pull drugs
         .then(function(response){
             res.render('index', { drugs : response.data });// response from API request stored as drugs
         })
