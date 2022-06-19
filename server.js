@@ -18,6 +18,15 @@ app.get('/', function(req, res) {//this listens for a get request for "/" the ho
   //res.render('temp');
 })
 
+
+app.get('/add-drug', function(req, res) {//this listens for a get request for "/add-drug" from any hyperlink
+  res.render('add_drug'); //tells server to respond with add_drug.ejs (.ejs is optional)
+})
+app.get('/update-drug', function(req, res) {
+  res.render('update_drug'); 
+})
+
+
 app.listen(PORT, function() {//specifies port to listen on
 	console.log('listening on '+ PORT);
 	console.log(`Welcome to the Drug Monitor App at http://localhost:${PORT}`);
