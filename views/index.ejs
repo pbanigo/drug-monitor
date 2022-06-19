@@ -20,17 +20,24 @@
 	</tr>
 	</thead>
 	<tbody>
+	<!-- Loop through drugs -->
+  <% for(let i = 0; i < drugs.length; i++) {%>
 		<tr>
-			<td>1</td>
-			<td>Vitamin C</td>
-			<td>10</td>
-			<td>100</td>
-			<td>1</td>
+			<td><%= i + 1 %></td>
+			<td><%= drugs[i].name %></td>
+			<td><%= drugs[i].card %></td>
+			<td><%= drugs[i].pack %></td>
+			<td><%= drugs[i].perDay %></td>
 			<td>
+			<a href="/update-drug?id=<%= drugs[i]._id%>">
 				<span class='fa fa-edit'></span>
+			</a>
+        	<a data-id=<%= drugs[i]._id%> ><!-- give each delete button a unique ID -->
 				<span class='fa fa-trash'></span>
+			</a>
 			</td>
 		</tr>
+  <% } %> <!--  End loop -->
 	</tbody>
 </table>
 </main>
