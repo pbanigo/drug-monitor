@@ -57,21 +57,54 @@ exports.find = (req,res)=>{
                 res.send(drug)
             })
             .catch(err => {
-                res.status(500).send({ message : err.message || "Error Occurred while retriving user information" })
+                res.status(500).send({ message : err.message || "An error occurred while retriving user information" })
             })
     }
-
-
 }
 
 
 // edits a user selected using their user ID
 exports.update = (req,res)=>{
+    if(!req.body){
+        return res
+            .status(400)
+            .send({ message : "Cannot update an empty drug"})
+    }
+
+    const id = req.params.id;
+    Drugdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false})
+        .then(data => {
+            if(!data){
+                res.status(404).send({ message : `Drug with id: ${id} cannot be updated`})
+            }else{
+                res.send(data);
+            }
+        })
+        .catch(err =>{
+            res.status(500).send({ message : "Error in updating drug information"})
+        })
 
 }
 
 
 // deletes a user using their user ID
 exports.delete = (req,res)=>{
+    const id = req.params.id;
+
+    Drugdb.findByIdAndDelete(id)
+        .then(data => {
+            if(!data){
+                res.status(404).send({ message : `Cannot Delete drug with id: ${id}. Pls check id`})
+            }else{
+                res.send({
+                    message : `Drug ${id} was deleted successfully!`
+                })
+            }
+        })
+        .catch(err =>{
+            res.status(500).send({
+                message: "Could not delete Drug with id=" + id
+            });
+        });
 
 }
