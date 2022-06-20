@@ -21,7 +21,7 @@ $("#update_drug").submit(function(event){// on clicking submit
 
 
     var request = {//use a put API request to use data from above to replace what's on database
-        "url" : `http://${url}/api/drugs/${data.id}`,
+        "url" : `https://${url}/api/drugs/${data.id}`,
         "method" : "PUT",
         "data" : data
     }
@@ -39,7 +39,7 @@ if(window.location.pathname == "/"){//since items are listed on homepage
         let id = $(this).attr("data-id") // pick the value from the data-id
 
         let request = {//save API request in variable
-            "url" : `http://${url}/api/drugs/${id}`,
+            "url" : `https://${url}/api/drugs/${id}`,
             "method" : "DELETE"
         }
 
