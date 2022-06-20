@@ -30,20 +30,20 @@ $("#update_drug").submit(function(event){// on clicking submit
 
 })
 
-if(window.location.pathname == "/"){
-    $ondelete = $("table tbody td a.delete");
-    $ondelete.click(function(){
-        let id = $(this).attr("data-id")
+if(window.location.pathname == "/"){//since items are listed on homepage
+    $ondelete = $("table tbody td a.delete"); //select the anchor with class delete
+    $ondelete.click(function(){//add click event listener
+        let id = $(this).attr("data-id") // pick the value from the data-id
 
-        let request = {
+        let request = {//save API request in variable
             "url" : `http://${url}/api/drugs/${id}`,
             "method" : "DELETE"
         }
 
-        if(confirm("Do you really want to delete this drug?")){
-            $.ajax(request).done(function(response){
-                alert("Drug deleted Successfully!");
-                location.reload();
+        if(confirm("Do you really want to delete this drug?")){// bring out confirm box
+            $.ajax(request).done(function(response){// if confirmed, send API request
+                alert("Drug deleted Successfully!");//show an alert that it's done
+                location.reload();//reload the page
             })
         }
 
