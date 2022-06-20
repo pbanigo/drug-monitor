@@ -18,5 +18,11 @@ exports.addDrug =  function(req, res) {//this listens for a get request for "/ad
 }
 
 exports.updateDrug =  function(req, res) {
-  res.render('update_drug'); 
+    axios.get(`${BASE_URI}:${PORT}/api/drugs`, { params : { id : req.query.id }})//request a drug from the database using the id
+        .then(function(response){
+            res.render("update_drug", { drug : response.data})//add drug data when rendering update form
+        })
+        .catch(err =>{
+            res.send(err);
+        })
 }

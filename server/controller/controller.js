@@ -21,8 +21,8 @@ exports.create = (req,res)=>{
     drug
         .save(drug)//use the save operation on drug
         .then(data => {
-            res.send(data) 
-            //res.redirect('/add-drug');
+            console.log(`${data.name} added to the database`) 
+            res.redirect('/add-drug');
         })
         .catch(err =>{
             res.status(500).send({//catch error
@@ -78,6 +78,7 @@ exports.update = (req,res)=>{
                 res.status(404).send({ message : `Drug with id: ${id} cannot be updated`})
             }else{
                 res.send(data);
+                //res.redirect('/');
             }
         })
         .catch(err =>{
@@ -97,7 +98,7 @@ exports.delete = (req,res)=>{
                 res.status(404).send({ message : `Cannot Delete drug with id: ${id}. Pls check id`})
             }else{
                 res.send({
-                    message : `Drug ${id} was deleted successfully!`
+                    message : `${data.name} was deleted successfully!`
                 })
             }
         })
