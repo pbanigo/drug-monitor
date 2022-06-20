@@ -1,4 +1,7 @@
 let url = location.host;//so it works locally and online
+
+$("table").rtResponsiveTables();
+
 $("#add_drug").submit(function(event){//on a submit event on the element with id add_drug
     alert($("#name").val() + " sent successfully!");//alert this in the browser
 })
