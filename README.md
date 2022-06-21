@@ -5,6 +5,8 @@
 
  Built with Node Js (Express), EJS & Mongo DB 
 
+ Live at https://drug-monitor.herokuapp.com
+
 #### To Run this project clone it and install modules using
 ```
 npm install
