@@ -1,3 +1,8 @@
+:root{
+	--light-green: #90ee90;
+
+};
+
 *, *::before, *::after {
   box-sizing: border-box; /*So it's easier to size*/
 }
@@ -20,7 +25,6 @@ body {
     text-align: center;
     margin: auto;
     font-size: 1.5rem;
-    /*background: linear-gradient(to left, white, green);*/
 }
 #app{
 	padding-top: 5%;
@@ -31,13 +35,19 @@ a {
     font-family: 'PT Sans', sans-serif;
 }
 table tr:hover{
-    background-color:#06d6a0 ;
+    background-color:var(--light-green) ;
 }
 
 table tr:hover td > a{
     box-shadow: none;
 }
 table.rt-responsive-table tr:nth-of-type(odd):hover{
-    background-color:#06d6a0 ;
+    background-color:var(--light-green) ;
+
+}
+@media only screen and (max-width: 720px){
+    body {
+    width: 100%;
+}
 
 }
