@@ -1,6 +1,5 @@
 :root{
 	--light-green: #90ee90;
-
 };
 
 *, *::before, *::after {
@@ -28,11 +27,22 @@ body {
 }
 #app{
 	padding-top: 5%;
-    min-height: 100vh;
+  min-height: 100vh;
 }
+#new {
+    float: left;
+    border-radius: 10px;
+    padding: 0.7rem;
+    margin: 1rem;
+    border-style: none;
+    background-color: var(--light-green);
+}
+.fa-trash {
+    color: red;
+}
+
 a {
     text-decoration: none;
-    font-family: 'PT Sans', sans-serif;
 }
 table tr:hover{
     background-color:var(--light-green) ;
@@ -48,6 +58,8 @@ table.rt-responsive-table tr:nth-of-type(odd):hover{
 @media only screen and (max-width: 720px){
     body {
     width: 100%;
-}
-
+    }
+    h2  {
+    display: none;
+  }
 }
