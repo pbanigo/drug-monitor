@@ -37,6 +37,7 @@ body {
     border-style: none;
     background-color: var(--light-green);
 }
+
 .fa-trash {
     color: red;
 }
@@ -55,11 +56,17 @@ table.rt-responsive-table tr:nth-of-type(odd):hover{
     background-color:var(--light-green) ;
 
 }
+table.rt-responsive-table.rt-vertical-table td:before {
+  word-break: break-word;
+}
 @media only screen and (max-width: 720px){
     body {
     width: 100%;
     }
     h2  {
+    display: none;
+  }
+  label {
     display: none;
   }
 }
