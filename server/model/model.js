@@ -6,6 +6,10 @@ let schema = new mongoose.Schema({
         required: true,// name is a required property
         unique: true // the value of name must be unique
     },
+    dosage : {
+        type : String,// dosage would be a string
+        required: true,// dosage is a required property
+    },
     card : {
         type: Number, // card would be a number
         required: true
