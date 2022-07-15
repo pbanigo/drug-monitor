@@ -1,7 +1,7 @@
 let Drugdb = require('../model/model');
 
 
-// creates and saves a new user
+// creates and saves a new drug
 exports.create = (req,res)=>{
     // validate incoming request
     if(!req.body){// if content of request (form data) is empty
@@ -9,7 +9,7 @@ exports.create = (req,res)=>{
         return;
     }
 
-    //create new user
+    //create new drug
     const drug = new Drugdb({
         name : req.body.name,//take values from form and assign to schema
         card : req.body.card,
@@ -17,7 +17,7 @@ exports.create = (req,res)=>{
         perDay : req.body.perDay
     })
 
-    //save created user to database
+    //save created drug to database
     drug
         .save(drug)//use the save operation on drug
         .then(data => {
@@ -33,10 +33,10 @@ exports.create = (req,res)=>{
 }
 
 
-// can either retrieve all users from the database or retrieve a single user
+// can either retrieve all drugs from the database or retrieve a single user
 exports.find = (req,res)=>{
 
-    if(req.query.id){//if we are searching for user using their ID
+    if(req.query.id){//if we are searching for drug using its ID
         const id = req.query.id;
 
         Drugdb.findById(id)
@@ -57,13 +57,13 @@ exports.find = (req,res)=>{
                 res.send(drug)
             })
             .catch(err => {
-                res.status(500).send({ message : err.message || "An error occurred while retriving user information" })
+                res.status(500).send({ message : err.message || "An error occurred while retriving drug information" })
             })
     }
 }
 
 
-// edits a user selected using their user ID
+// edits a drug selected using its  ID
 exports.update = (req,res)=>{
     if(!req.body){
         return res
@@ -88,7 +88,7 @@ exports.update = (req,res)=>{
 }
 
 
-// deletes a user using their user ID
+// deletes a drug using its drug ID
 exports.delete = (req,res)=>{
     const id = req.params.id;
 
