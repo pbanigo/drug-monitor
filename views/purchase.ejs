@@ -3,14 +3,35 @@
 <!-- end header -->
 <!-- Main section -->
 <main id="main">
-  <a href="/">
-    <span><i class="fas fa-arrow-left"></i> All Drugs</span>
-  </a>
 
 <h2>Calculate Drugs to purchase</h2>
+<p>For how many days do you want to purchase drugs? <input type="number"> <button>Enter</button></p>
 
+<table id="purchase_table">	
+<thead>
+<tr>
+<th>ID</th>
+<th>Drug Name</th>
+<th> Cards to Buy</th>
+<th>Packs to Buy</th>
+</tr>
+</thead>
+<tbody>
+<!-- Loop through drugs -->
+<% for(let i = 0; i < drugs.length; i++) {%>
+	<% let pills = 30*drugs[i].perDay; %>
+	<tr>
+	<td><%= i + 1 %></td>
+	<td><%= drugs[i].name %></td>
+	<td><%= Math.ceil(pills/drugs[i].card) %> (<%= drugs[i].pack/drugs[i].card %> <% if (drugs[i].pack/drugs[i].card < 2) { %> card <%} else { %> cards <% } %> per pack)</td>
+	<td><%= Math.ceil(pills/drugs[i].pack) %></td>
+	</tr>
+	<% } %> <!--  End loop -->
+</tbody>
+</table>
 </main>
 <!-- End main section -->
 <!-- add footer -->
 <%- include('includes/_footer') %>
 <!-- end footer-->
+
