@@ -5,7 +5,7 @@ const services = require('../services/render');//uses the render.js file from se
 const controller = require('../controller/controller');//uses the render.js file from services here
 
 
-route.get('/', services.homeRoutes);
+route.get('/', services.home);
 
 
 route.get('/manage', services.manage);
