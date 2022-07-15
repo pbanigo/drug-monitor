@@ -28,12 +28,12 @@ $("#update_drug").submit(function(event){// on clicking submit
 
     $.ajax(request).done(function(response){
         alert(data.name + " Updated Successfully!");
-		window.location.href = "/";//redirects to index after alert is closed
+		window.location.href = "/manage";//redirects to index after alert is closed
     })
 
 })
 
-if(window.location.pathname == "/"){//since items are listed on homepage
+if(window.location.pathname == "/manage"){//since items are listed on homepage
     $ondelete = $("table tbody td a.delete"); //select the anchor with class delete
     $ondelete.click(function(){//add click event listener
         let id = $(this).attr("data-id") // pick the value from the data-id

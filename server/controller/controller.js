@@ -14,7 +14,8 @@ exports.create = (req,res)=>{
         name : req.body.name,//take values from form and assign to schema
         card : req.body.card,
         pack: req.body.pack,
-        perDay : req.body.perDay
+        perDay : req.body.perDay,
+        dosage : req.body.dosage
     })
 
     //save created drug to database
@@ -22,7 +23,7 @@ exports.create = (req,res)=>{
         .save(drug)//use the save operation on drug
         .then(data => {
             console.log(`${data.name} added to the database`) 
-            res.redirect('/add-drug');
+            res.redirect('/manage');
         })
         .catch(err =>{
             res.status(500).send({//catch error

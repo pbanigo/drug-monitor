@@ -31,3 +31,25 @@ exports.manage= function(req, res) {
         })
 }
 
+exports.dosage= function(req, res) {
+    // Make a get request to /api/users
+    axios.get(`${BASE_URI}:${PORT}/api/drugs`)//get request to pull drugs
+        .then(function(response){
+            res.render('dosage', { drugs : response.data });// response from API request stored as drugs to display on manage.ejs
+        })
+        .catch(err =>{
+            res.send(err);
+        })
+}
+
+exports.purchase= function(req, res) {
+    // Make a get request to /api/users
+    axios.get(`${BASE_URI}:${PORT}/api/drugs`)//get request to pull drugs
+        .then(function(response){
+            res.render('purchase', { drugs : response.data });// response from API request stored as drugs to display on manage.ejs
+        })
+        .catch(err =>{
+            res.send(err);
+        })
+}
+
