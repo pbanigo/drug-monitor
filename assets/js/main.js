@@ -33,7 +33,7 @@ $("#update_drug").submit(function(event){// on clicking submit
 
 })
 
-if(window.location.pathname == "/manage"){//since items are listed on homepage
+if(window.location.pathname == "/manage"){//since items are listed on manage
     $ondelete = $("table tbody td a.delete"); //select the anchor with class delete
     $ondelete.click(function(){//add click event listener
         let id = $(this).attr("data-id") // pick the value from the data-id
