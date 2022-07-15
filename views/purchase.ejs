@@ -1,0 +1,42 @@
+<!-- add header -->
+<%- include('includes/_header') %>
+<!-- end header -->
+<!-- Main section -->
+<main id="main">
+  <a href="/">
+    <span><i class="fas fa-arrow-left"></i> All Drugs</span>
+  </a>
+
+<h2>Calculate Drugs to purchase</h2>
+<p>Use the below form to edit <%= drug.name %></p>
+ <!-- Update drug form -->
+ <form method="POST" id="update_drug">
+    <div class="container d-flex flex-column align-items-stretch">
+        <div class="row mb-3 form-group justify-content-center">             
+            <label for="name" class="col-3 col-form-label">Drug Name</label>
+            <input type="hidden" name="id" value="<%= drug._id %>">
+            <input type="text" name="name" value="<%= drug.name %>" placeholder="Drug Name" class="col-xs-8 col-md-4">
+        </div>
+        <div class="row mb-3 form-group justify-content-center">
+            <label for="card" class="col-3 col-form-label">Tablets per Card</label>
+            <input type="number" name="card" value="<%= drug.card %>" placeholder="Tablets per Card" min="1" max="500" class="col-xs-8 col-md-4">
+        </div>
+        <div class="row mb-3 form-group justify-content-center">
+            <label for="pack" class="col-3 col-form-label">Tablets per Pack</label>
+            <input type="number" name="pack" value="<%= drug.pack %>" placeholder="Tablets per Pack" min="1" max="500" class="col-xs-8 col-md-4">
+        </div>
+        <div class="row mb-3 form-group justify-content-center">
+            <label for="perDay" class="col-3 col-form-label">Taken per day</label>
+            <input type="number" name="perDay" value="<%= drug.perDay %>" placeholder="Taken per day" min="1" max="500" class="col-xs-8 col-md-4">
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Edit Drug</button>
+        </div>
+    </div>
+</form>
+</main>
+<!-- End main section -->
+<!-- add footer -->
+<%- include('includes/_footer') %>
+<!-- end footer-->
