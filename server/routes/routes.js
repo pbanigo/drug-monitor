@@ -8,6 +8,7 @@ const controller = require('../controller/controller');//uses the render.js file
 route.get('/', services.homeRoutes);
 
 
+route.get('/manage', services.manage);
 route.get('/add-drug', services.addDrug);
 route.get('/update-drug', services.updateDrug);
 
