@@ -1,6 +1,10 @@
 # Drug Monitor
 ![Drug Monitor App](assets/images/pillorganizer.jpg)
+<<<<<<< HEAD
  An app to plan and organize prescription drug purchases.
+=======
+ An app to plan and organize prescription drug purchases
+>>>>>>> 015e93cec8b522a90fd093755b9ba51afc8d214e
 
  For older people on medication, it's hard to remember what to take and when to re-stock.
 
