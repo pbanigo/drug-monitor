@@ -52,3 +52,15 @@ if(window.location.pathname == "/manage"){//since items are listed on manage
 
     })
 }
+
+if(window.location.pathname == "/purchase"){
+//$("#purchase_table").hide();
+
+$("#drug_days").submit(function(event){//on a submit event on the element with id add_drug
+    event.preventDefault();//prevent default submit behaviour
+    $("#purchase_table").show();
+    days = +$("#days").val();
+    alert("Drugs for " + days + " days!");//alert this in the browser
+})
+
+}
