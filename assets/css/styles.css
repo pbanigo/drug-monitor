@@ -1,11 +1,11 @@
 :root{
+
 	--light-green: #90ee90;
 };
 
 *, *::before, *::after {
   box-sizing: border-box; /*So it's easier to size*/
 }
-
 
 /******************************************
 /* LAYOUT
@@ -26,7 +26,6 @@ body {
     font-size: 1.5rem;
 }
 #app{
-	padding-top: 5%;
   min-height: 100vh;
 }
 #new {
@@ -69,4 +68,18 @@ table.rt-responsive-table.rt-vertical-table td:before {
   label {
     display: none;
   }
+}
+
+.bg-image-vertical {
+position: relative;
+overflow: hidden;
+background-repeat: no-repeat;
+background-position: right center;
+background-size: auto 100%;
+}
+
+@media (min-width: 1025px) {
+.h-custom-2 {
+height: 100%;
+}
 }
