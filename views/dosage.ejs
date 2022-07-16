@@ -4,37 +4,37 @@
 <!-- Main section -->
 <main id="main">
 
-<h2>View Daily Drug Dosage</h2>
-<div class="row">
-<div class="col-lg-3 col-sm-12">
-<p>
-<img src="/images/pillorganizer.jpg" alt="" width="100%" height="auto"><br>This is how drugs are dispensed for daily use. The White container is for morning drugs, purple for afternoon and deep blue for evening drugs</p>
-</div>
-<div class="col-lg-9 col-sm-12">
-<table>	
-<thead>
-<tr>
-<th>ID</th>
-<th>Drug Name</th>
-<th>Daily dosage</th>
-</tr>
-</thead>
-<tbody>
-<!-- Loop through drugs -->
-<% for(let i = 0; i < drugs.length; i++) {%>
-	<tr>
-	<td><%= i + 1 %></td>
-	<td><%= drugs[i].name %></td>
-	<td><%= drugs[i].dosage %></td>
-	</tr>
-	<% } %> <!--  End loop -->
-</tbody>
-</table>
-</div>
-</div>
+	<h2>View Daily Drug Dosage</h2>
+	<div class="row">
+		<div class="col-lg-3 col-sm-12">
+			<p>
+				<img src="/images/pillorganizer.jpg" alt="" width="100%" height="auto"><br>This is how drugs are dispensed for daily use. The White container is for morning drugs, purple for afternoon and deep blue for evening drugs</p>
+			</div>
+			<div class="col-lg-9 col-sm-12">
+				<table>	
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Drug Name</th>
+							<th>Daily dosage</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Loop through drugs -->
+						<% for(let i = 0; i < drugs.length; i++) {%>
+						<tr>
+							<td><%= i + 1 %></td>
+							<td><%= drugs[i].name %></td>
+							<td><%= drugs[i].dosage %></td>
+						</tr>
+						<% } %> <!--  End loop -->
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-</main>
-<!-- End main section -->
-<!-- add footer -->
-<%- include('includes/_footer') %>
-<!-- end footer-->
+	</main>
+	<!-- End main section -->
+	<!-- add footer -->
+	<%- include('includes/_footer') %>
+	<!-- end footer-->

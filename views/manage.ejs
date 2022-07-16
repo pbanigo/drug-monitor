@@ -3,44 +3,44 @@
 <!-- end header -->
 <!-- Main section -->
 <main id="main">
-  <a href="/add-drug">
-    <button id="new">New Drug <i class="fas fa-pills"></i></button>
-  </a>
+	<a href="/add-drug">
+		<button id="new">New Drug <i class="fas fa-pills"></i></button>
+	</a>
 
-<table>	
-	<thead>
-	<tr>
-		<th>ID</th>
-		<th>Drug Name</th>
-		<th>Tablets per Card</th>
-		<th>Tablets per Pack</th>
-		<th>Taken per Day</th>
-		<th>Daily dosage</th>
-		<th>Action</th>
-	</tr>
-	</thead>
-	<tbody>
-	<!-- Loop through drugs -->
-  <% for(let i = 0; i < drugs.length; i++) {%>
-		<tr>
-			<td><%= i + 1 %></td>
-			<td><%= drugs[i].name %></td>
-			<td><%= drugs[i].card %></td>
-			<td><%= drugs[i].pack %></td>
-			<td><%= drugs[i].perDay %></td>
-			<td><%= drugs[i].dosage %></td>
-			<td>
-			<a href="/update-drug?id=<%= drugs[i]._id%>">
-				<span class='fa fa-edit'></span>
-			</a>
-        	<a class="delete" data-id=<%= drugs[i]._id%> ><!-- give each delete button a unique ID -->
-				<span class='fa fa-trash'></span>
-			</a>
-			</td>
-		</tr>
-  <% } %> <!--  End loop -->
-	</tbody>
-</table>
+	<table>	
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Drug Name</th>
+				<th>Tablets per Card</th>
+				<th>Tablets per Pack</th>
+				<th>Taken per Day</th>
+				<th>Daily dosage</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- Loop through drugs -->
+			<% for(let i = 0; i < drugs.length; i++) {%>
+			<tr>
+				<td><%= i + 1 %></td>
+				<td><%= drugs[i].name %></td>
+				<td><%= drugs[i].card %></td>
+				<td><%= drugs[i].pack %></td>
+				<td><%= drugs[i].perDay %></td>
+				<td><%= drugs[i].dosage %></td>
+				<td>
+					<a href="/update-drug?id=<%= drugs[i]._id%>">
+						<span class='fa fa-edit'></span>
+					</a>
+					<a class="delete" data-id=<%= drugs[i]._id%> ><!-- give each delete button a unique ID -->
+						<span class='fa fa-trash'></span>
+					</a>
+				</td>
+			</tr>
+			<% } %> <!--  End loop -->
+		</tbody>
+	</table>
 </main>
 <!-- End main section -->
 <!-- add footer -->

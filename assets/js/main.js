@@ -21,13 +21,13 @@ $("#update_drug").submit(function(event){// on clicking submit
 
 
     var request = {//use a put API request to use data from above to replace what's on database
-        "url" : `https://${url}/api/drugs/${data.id}`,
-        "method" : "PUT",
-        "data" : data
-    }
+    "url" : `https://${url}/api/drugs/${data.id}`,
+    "method" : "PUT",
+    "data" : data
+}
 
-    $.ajax(request).done(function(response){
-        alert(data.name + " Updated Successfully!");
+$.ajax(request).done(function(response){
+    alert(data.name + " Updated Successfully!");
 		window.location.href = "/manage";//redirects to index after alert is closed
     })
 
