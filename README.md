@@ -1,10 +1,10 @@
 # Drug Monitor
 ![Drug Monitor App](assets/images/pillorganizer.jpg)
- An app to plan and organize prescription drug purchases
+ An app to plan and organize prescription drug purchases.
 
  For older people on medication, it's hard to remember what to take and when to re-stock.
 
- Built with Node Js (Express), EJS & Mongo DB 
+ Built with Node Js (Express), EJS & Mongo DB.
 
  Live at https://drug-monitor.herokuapp.com
 
