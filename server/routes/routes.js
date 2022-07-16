@@ -14,7 +14,10 @@ route.get('/purchase', services.purchase);
 route.get('/add-drug', services.addDrug);
 route.get('/update-drug', services.updateDrug);
 
+// Auth routes
+route.get('/login', services.login);
 
+route.get('/register', services.register);
 
 // API for CRUD operations
 route.post('/api/drugs', controller.create);

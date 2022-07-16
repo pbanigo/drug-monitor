@@ -2,6 +2,14 @@ const axios = require('axios');//http client used for making client & server sid
 const PORT = process.env.PORT || 3100; //uses either what's in our env or 3100 as our port (you can use any unused port)
 const BASE_URI = process.env.BASE_URI || 'http://localhost'; //uses either what's in our env or 3100 as our port (you can use any unused port)
 
+exports.login =  function(req, res) {//this listens for a get request for "/add-drug" from any hyperlink
+  res.render('login', { title: `login`}); //tells server to respond with add_drug.ejs (.ejs is optional)
+}
+exports.register =  function(req, res) {//this listens for a get request for "/add-drug" from any hyperlink
+  res.render('register', { title: `register`}); //tells server to respond with add_drug.ejs (.ejs is optional)
+}
+
+
 exports.home= function(req, res) {
             res.render('index', { title: `Home`});
 }
@@ -9,6 +17,7 @@ exports.home= function(req, res) {
 exports.addDrug =  function(req, res) {//this listens for a get request for "/add-drug" from any hyperlink
   res.render('add_drug', { title: `Add Drug`}); //tells server to respond with add_drug.ejs (.ejs is optional)
 }
+
 
 exports.updateDrug =  function(req, res) {
     axios.get(`${BASE_URI}:${PORT}/api/drugs`, { params : { id : req.query.id }})//request a drug from the database using the id
