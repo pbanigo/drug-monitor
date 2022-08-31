@@ -3,10 +3,10 @@ const PORT = process.env.PORT || 3100; //uses either what's in our env or 3100 a
 const BASE_URI = process.env.BASE_URI || 'http://localhost'; //uses either what's in our env or 3100 as our port (you can use any unused port)
 
 exports.login =  function(req, res) {//this listens for a get request for "/add-drug" from any hyperlink
-  res.render('login', { title: `login`}); //tells server to respond with add_drug.ejs (.ejs is optional)
+  res.render('login', { title: `login`}); //tells server to respond with login.ejs (.ejs is optional)
 }
 exports.register =  function(req, res) {//this listens for a get request for "/add-drug" from any hyperlink
-  res.render('register', { title: `register`}); //tells server to respond with add_drug.ejs (.ejs is optional)
+  res.render('register', { title: `register`}); //tells server to respond with register.ejs (.ejs is optional)
 }
 
 
