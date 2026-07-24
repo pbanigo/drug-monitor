@@ -298,6 +298,9 @@ tbody tr:hover { background: var(--surface-2); }
 .drug-name { font-weight: 600; }
 .drug-strength { color: var(--muted); font-weight: 500; font-size: .85rem; margin-left: 6px; }
 .cell-muted { color: var(--muted); }
+/* Inline links inside muted text need a readable, on-brand colour in both themes */
+.cell-muted a { color: var(--primary); font-weight: 600; text-decoration: underline; }
+.cell-muted a:hover { color: var(--primary-600); }
 
 /* ---------- Schedule chips -------------------------------------------------- */
 .chips { display: inline-flex; flex-wrap: wrap; gap: 6px; }

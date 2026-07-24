@@ -16,12 +16,29 @@ function is_https()
         || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
 }
 
+// The folder the app is served from, e.g. "/demo/drug-monitor/" or "/".
+// Cookies are scoped to this so they never collide with other apps on the domain.
+function app_base_path()
+{
+    static $base = null;
+    if ($base === null) {
+        $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+        $dir = preg_replace('#/api$#', '', $dir); // api/*.php sits one level deeper
+        $dir = '/' . trim($dir, '/');
+        $base = $dir === '/' ? '/' : $dir . '/';
+    }
+    return $base;
+}
+
 function auth_bootstrap()
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
+        // A dedicated cookie name + folder-scoped path keeps this app's session
+        // separate from any other PHP app on the same domain.
+        session_name('DRUGMON');
         session_set_cookie_params([
             'lifetime' => 0,
-            'path'     => '/',
+            'path'     => app_base_path(),
             'httponly' => true,
             'samesite' => 'Lax',
             'secure'   => is_https(),
@@ -52,9 +69,10 @@ function auth_bootstrap()
 
     setcookie('dm_guest', $token, [
         'expires'  => time() + 31536000, // 1 year
-        'path'     => '/',
+        'path'     => app_base_path(),
         'httponly' => true,
         'samesite' => 'Lax',
+        'secure'   => is_https(),
     ]);
     $_COOKIE['dm_guest'] = $token;
     $_SESSION['user_id'] = $id;
@@ -126,7 +144,7 @@ function auth_register($username, $password)
     $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT), current_user_id()]);
 
     // No longer a guest: drop the guest cookie.
-    setcookie('dm_guest', '', time() - 3600, '/');
+    setcookie('dm_guest', '', time() - 3600, app_base_path());
     session_regenerate_id(true);
     return true;
 }
@@ -139,7 +157,7 @@ function auth_logout()
         setcookie(session_name(), '', time() - 3600, $p['path'], $p['domain'], $p['secure'], $p['httponly']);
     }
     session_destroy();
-    setcookie('dm_guest', '', time() - 3600, '/'); // fresh guest next visit
+    setcookie('dm_guest', '', time() - 3600, app_base_path()); // fresh guest next visit
 }
 
 // ---------------------------------------------------------------------------
