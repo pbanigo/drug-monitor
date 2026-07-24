@@ -1,18 +1,21 @@
 -- Sample drug list. Import after schema.sql to pre-populate the table.
--- Columns: name, strength, morning, afternoon, evening, night
+-- Vitamins/supplements come in bottles of 100; the rest are blister packs.
 
-INSERT INTO drugs (name, strength, morning, afternoon, evening, night) VALUES
-('TreviaMet',   '50/500', 1, 0, 1, 0),
-('Metformin',   '500mg',  1, 0, 1, 0),
-('Vitamin C',   '100mg',  2, 2, 2, 0),
-('D3',          '5000iu', 0, 1, 0, 0),
-('B12',         NULL,     0, 1, 0, 0),
-('Calcium',     NULL,     0, 1, 0, 0),
-('Simvastatin', '10mg',   0, 0, 0, 1),
-('Vasoprin',    NULL,     0, 0, 0, 1)
+INSERT INTO drugs (name, strength, unit_type, morning, afternoon, evening, night, card, pack) VALUES
+('TreviaMet',   '50/500', 'blister', 1, 0, 1, 0, NULL, NULL),
+('Metformin',   '500mg',  'blister', 1, 0, 1, 0, NULL, NULL),
+('Vitamin C',   '100mg',  'bottle',  2, 2, 2, 0, NULL, 100),
+('D3',          '5000iu', 'bottle',  0, 1, 0, 0, NULL, 100),
+('B12',         NULL,     'bottle',  0, 1, 0, 0, NULL, 100),
+('Calcium',     NULL,     'bottle',  0, 1, 0, 0, NULL, 100),
+('Simvastatin', '10mg',   'blister', 0, 0, 0, 1, NULL, NULL),
+('Vasoprin',    NULL,     'blister', 0, 0, 0, 1, NULL, NULL)
 ON DUPLICATE KEY UPDATE
     strength  = VALUES(strength),
+    unit_type = VALUES(unit_type),
     morning   = VALUES(morning),
     afternoon = VALUES(afternoon),
     evening   = VALUES(evening),
-    night     = VALUES(night);
+    night     = VALUES(night),
+    card      = VALUES(card),
+    pack      = VALUES(pack);

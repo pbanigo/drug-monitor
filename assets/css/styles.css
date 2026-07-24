@@ -412,3 +412,50 @@ tbody tr:hover { background: var(--surface-2); }
 }
 .site-footer .socials a:hover { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 40%, var(--border)); }
 .site-footer a { color: var(--primary); text-decoration: none; }
+
+/* ---------- Expandable details, photos, warnings --------------------------- */
+.expand-btn.open i { transform: rotate(180deg); }
+.expand-btn i { transition: transform .15s; }
+.detail-row td { background: var(--surface-2); }
+.detail-grid { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 22px; padding: 6px 2px; }
+@media (max-width: 720px) { .detail-grid { grid-template-columns: 1fr; } }
+.detail-photos { display: flex; gap: 14px; flex-wrap: wrap; }
+.detail-photos figure { margin: 0; text-align: center; }
+.detail-photos img {
+  width: 120px; height: 120px; object-fit: cover;
+  border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+}
+.detail-photos figcaption { color: var(--muted); font-size: .78rem; margin-top: 6px; }
+.detail-warnings h4 { margin: 0 0 8px; font-size: .95rem; display: flex; align-items: center; gap: 8px; }
+.warnings-box { font-size: .88rem; white-space: pre-line; max-height: 240px; overflow-y: auto; }
+.disclaimer { color: var(--muted); font-size: .76rem; margin: 12px 0 0; font-style: italic; }
+.photo-thumb {
+  display: block; width: 90px; height: 90px; object-fit: cover;
+  border-radius: 10px; border: 1px solid var(--border); margin-bottom: 8px;
+}
+
+/* ---------- Barcode scanner ------------------------------------------------- */
+.scan-panel {
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 20px;
+  background: var(--surface-2);
+}
+.scan-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+#scanVideo {
+  display: none;
+  width: 100%; max-width: 360px; margin-top: 12px;
+  border-radius: 12px; border: 1px solid var(--border); background: #000;
+}
+select.input { appearance: none; -webkit-appearance: none; background-image: none; }
+
+/* ---------- Print ----------------------------------------------------------- */
+@media print {
+  .site-nav, .site-footer, .no-print, .back-link, .section-bar .row-actions { display: none !important; }
+  body { background: #fff; }
+  main#main { padding: 0; }
+  .print-title { display: block !important; font-size: 1.3rem; font-weight: 700; margin-bottom: 14px; }
+  .table-wrap { box-shadow: none; border-color: #ccc; }
+  a[href]:after { content: ""; }
+}

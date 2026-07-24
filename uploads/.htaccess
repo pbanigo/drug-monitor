@@ -1,0 +1,5 @@
+# Never execute scripts from the uploads folder; serve files only.
+php_flag engine off
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phar|cgi|pl|py|sh)$">
+  Require all denied
+</FilesMatch>

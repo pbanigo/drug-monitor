@@ -1,0 +1,4 @@
+# Keep the uploads folder in git, but ignore uploaded files.
+*
+!.gitignore
+!.htaccess

@@ -2,13 +2,27 @@
 require_once __DIR__ . '/includes/functions.php';
 
 $error = '';
-$v = ['name' => '', 'strength' => '', 'morning' => '0', 'afternoon' => '0',
-      'evening' => '0', 'night' => '0', 'card' => '', 'pack' => ''];
+$v = ['name' => '', 'strength' => '', 'unit_type' => 'blister',
+      'morning' => '0', 'afternoon' => '0', 'evening' => '0', 'night' => '0',
+      'card' => '', 'pack' => '', 'pack_photo' => null, 'pill_photo' => null];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    foreach ($v as $k => $_) {
-        $v[$k] = $_POST[$k] ?? $v[$k];
+    $v['name']      = $_POST['name']      ?? '';
+    $v['strength']  = $_POST['strength']  ?? '';
+    $v['unit_type'] = ($_POST['unit_type'] ?? 'blister') === 'bottle' ? 'bottle' : 'blister';
+    foreach (['morning', 'afternoon', 'evening', 'night'] as $slot) {
+        $v[$slot] = $_POST[$slot] ?? '0';
     }
+    // Bottles use a single "tablets per bottle" field, stored in the pack column.
+    if ($v['unit_type'] === 'bottle') {
+        $v['card'] = '';
+        $v['pack'] = $_POST['bottle_size'] ?? '';
+    } else {
+        $v['card'] = $_POST['card'] ?? '';
+        $v['pack'] = $_POST['pack'] ?? '';
+    }
+    $v['pack_photo'] = handle_image_upload('pack_photo');
+    $v['pill_photo'] = handle_image_upload('pill_photo');
 
     if (trim($v['name']) === '') {
         $error = 'Drug name is required.';

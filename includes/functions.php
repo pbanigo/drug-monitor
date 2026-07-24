@@ -83,8 +83,8 @@ function create_drug(array $data)
 {
     try {
         $stmt = get_db()->prepare(
-            'INSERT INTO drugs (name, strength, morning, afternoon, evening, night, card, pack)
-             VALUES (:name, :strength, :morning, :afternoon, :evening, :night, :card, :pack)'
+            'INSERT INTO drugs (name, strength, unit_type, morning, afternoon, evening, night, card, pack, pack_photo, pill_photo)
+             VALUES (:name, :strength, :unit_type, :morning, :afternoon, :evening, :night, :card, :pack, :pack_photo, :pill_photo)'
         );
         $stmt->execute(drug_params($data));
         return true;
@@ -101,9 +101,9 @@ function update_drug($id, array $data)
     try {
         $stmt = get_db()->prepare(
             'UPDATE drugs SET
-                name = :name, strength = :strength,
+                name = :name, strength = :strength, unit_type = :unit_type,
                 morning = :morning, afternoon = :afternoon, evening = :evening, night = :night,
-                card = :card, pack = :pack
+                card = :card, pack = :pack, pack_photo = :pack_photo, pill_photo = :pill_photo
              WHERE id = :id'
         );
         $stmt->execute(drug_params($data) + [':id' => (int) $id]);
@@ -118,20 +118,104 @@ function update_drug($id, array $data)
 // Build the bound parameters shared by insert and update.
 function drug_params(array $data)
 {
+    $unit = ($data['unit_type'] ?? 'blister') === 'bottle' ? 'bottle' : 'blister';
     return [
-        ':name'      => trim($data['name']),
-        ':strength'  => ($data['strength'] === '' ? null : trim($data['strength'])),
-        ':morning'   => (int) $data['morning'],
-        ':afternoon' => (int) $data['afternoon'],
-        ':evening'   => (int) $data['evening'],
-        ':night'     => (int) $data['night'],
-        ':card'      => nullable_int($data['card']),
-        ':pack'      => nullable_int($data['pack']),
+        ':name'       => trim($data['name']),
+        ':strength'   => ($data['strength'] === '' ? null : trim($data['strength'])),
+        ':unit_type'  => $unit,
+        ':morning'    => (int) $data['morning'],
+        ':afternoon'  => (int) $data['afternoon'],
+        ':evening'    => (int) $data['evening'],
+        ':night'      => (int) $data['night'],
+        // A bottle has no cards; keep card null for bottles.
+        ':card'       => $unit === 'bottle' ? null : nullable_int($data['card']),
+        ':pack'       => nullable_int($data['pack']),
+        ':pack_photo' => ($data['pack_photo'] ?? null) ?: null,
+        ':pill_photo' => ($data['pill_photo'] ?? null) ?: null,
     ];
+}
+
+// Work out what to buy for a drug over a number of days, given tablets already in hand.
+function purchase_plan(array $drug, $days, $remaining = 0)
+{
+    $needed = (int) $days * per_day($drug);
+    $to_buy = max(0, $needed - (int) $remaining);
+
+    $plan = [
+        'needed'    => $needed,
+        'to_buy'    => $to_buy,
+        'unit_type' => $drug['unit_type'],
+        'cards'     => null,
+        'packs'     => null,
+        'bottles'   => null,
+        'share_qty' => $to_buy . ' tablets',
+    ];
+
+    if ($drug['unit_type'] === 'bottle') {
+        if ($drug['pack']) {
+            $plan['bottles']   = (int) ceil($to_buy / $drug['pack']);
+            $plan['share_qty'] = $plan['bottles'] . ' bottle' . ($plan['bottles'] === 1 ? '' : 's');
+        }
+    } else {
+        if ($drug['card']) {
+            $plan['cards']     = (int) ceil($to_buy / $drug['card']);
+            $plan['share_qty'] = $plan['cards'] . ' card' . ($plan['cards'] === 1 ? '' : 's');
+        }
+        if ($drug['pack']) {
+            $plan['packs'] = (int) ceil($to_buy / $drug['pack']);
+            if ($plan['cards'] === null) {
+                $plan['share_qty'] = $plan['packs'] . ' pack' . ($plan['packs'] === 1 ? '' : 's');
+            }
+        }
+    }
+
+    return $plan;
 }
 
 // Delete a drug by id.
 function delete_drug($id)
 {
     return get_db()->prepare('DELETE FROM drugs WHERE id = ?')->execute([(int) $id]);
+}
+
+define('UPLOAD_DIR', __DIR__ . '/../uploads');
+
+// Handle an optional image upload. Returns the new filename, or the existing one
+// if nothing valid was uploaded. Validates that the file is a real image.
+function handle_image_upload($field, $existing = null)
+{
+    if (empty($_FILES[$field]) || $_FILES[$field]['error'] === UPLOAD_ERR_NO_FILE) {
+        return $existing;
+    }
+
+    $file = $_FILES[$field];
+    if ($file['error'] !== UPLOAD_ERR_OK || $file['size'] > 5 * 1024 * 1024) {
+        return $existing; // ignore errors and oversize files (> 5 MB)
+    }
+
+    $info = @getimagesize($file['tmp_name']);
+    $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp', 'image/gif' => 'gif'];
+    if ($info === false || !isset($allowed[$info['mime']])) {
+        return $existing; // not a recognised image
+    }
+
+    if (!is_dir(UPLOAD_DIR)) {
+        @mkdir(UPLOAD_DIR, 0755, true);
+    }
+
+    $name = $field . '_' . bin2hex(random_bytes(8)) . '.' . $allowed[$info['mime']];
+    if (!move_uploaded_file($file['tmp_name'], UPLOAD_DIR . '/' . $name)) {
+        return $existing;
+    }
+
+    delete_upload($existing);
+    return $name;
+}
+
+// Remove an uploaded file from disk if it exists.
+function delete_upload($filename)
+{
+    if ($filename && is_file(UPLOAD_DIR . '/' . $filename)) {
+        @unlink(UPLOAD_DIR . '/' . $filename);
+    }
 }
