@@ -6,7 +6,9 @@ $v = ['name' => '', 'strength' => '', 'unit_type' => 'blister',
       'morning' => '0', 'afternoon' => '0', 'evening' => '0', 'night' => '0',
       'card' => '', 'pack' => '', 'pack_photo' => null, 'pill_photo' => null];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_check()) {
+    $error = 'Your session expired. Please try again.';
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $v['name']      = $_POST['name']      ?? '';
     $v['strength']  = $_POST['strength']  ?? '';
     $v['unit_type'] = ($_POST['unit_type'] ?? 'blister') === 'bottle' ? 'bottle' : 'blister';

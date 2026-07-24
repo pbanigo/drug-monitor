@@ -55,6 +55,7 @@ require __DIR__ . '/includes/header.php';
                 <button type="button" class="icon-btn expand-btn" data-id="<?= e($drug['id']) ?>" data-name="<?= e($drug['name']) ?>" title="Details"><i class="fas fa-chevron-down"></i></button>
                 <a class="icon-btn" href="update-drug.php?id=<?= e($drug['id']) ?>" title="Edit"><i class="fas fa-pen"></i></a>
                 <form action="delete.php" method="POST" class="delete-form" data-name="<?= e($drug['name']) ?>" style="display:inline">
+                  <?= csrf_field() ?>
                   <input type="hidden" name="id" value="<?= e($drug['id']) ?>">
                   <button type="submit" class="icon-btn danger" title="Delete"><i class="fas fa-trash"></i></button>
                 </form>

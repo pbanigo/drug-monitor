@@ -39,7 +39,21 @@ function nav_active($page)
           <a href="manage.php"<?= nav_active('manage.php') ?>>Manage</a>
           <a href="dosage.php"<?= nav_active('dosage.php') ?>>Dosage</a>
           <a href="purchase.php"<?= nav_active('purchase.php') ?>>Purchase</a>
+          <?php if (is_logged_in()): ?>
+            <span class="nav-user"><i class="fas fa-user"></i> <?= e(current_user()['username']) ?></span>
+            <a href="logout.php" class="nav-cta-ghost">Log out</a>
+          <?php else: ?>
+            <a href="login.php">Log in</a>
+            <a href="register.php" class="nav-cta">Create account</a>
+          <?php endif; ?>
         </div>
       </div>
     </nav>
+    <?php if (is_guest() && $current !== 'register.php' && $current !== 'login.php'): ?>
+    <div class="guest-banner no-print">
+      <i class="fas fa-circle-info"></i>
+      You are trying Drug Monitor as a guest. Your changes are saved on this device only.
+      <a href="register.php">Create a free account</a> to keep them safely.
+    </div>
+    <?php endif; ?>
     <main id="main">

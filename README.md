@@ -12,7 +12,14 @@ This is the PHP + MySQL version, built to run on standard shared hosting (cPanel
 
 - PHP (plain, no framework)
 - MySQL / MariaDB (PDO)
-- Bootstrap 5
+- Font Awesome + Inter (via CDN)
+
+## Accounts
+
+- Anyone can use the app straight away as a **guest**; their data is saved server-side against an anonymous account (tracked by a cookie) and pre-filled with a sample drug list to try.
+- Creating an account (username + password only) **upgrades the current guest in place**, so everything they added is kept and becomes available on any device via login.
+- There is no email and no password reset by design, keep the password safe.
+- Each user only ever sees their own drugs. Passwords are hashed and all forms are CSRF-protected.
 
 ## Features
 
@@ -38,13 +45,14 @@ This is the PHP + MySQL version, built to run on standard shared hosting (cPanel
 ## Local setup (Laragon)
 
 1. Place the project in `C:\laragon\www\drug-monitor` (already done).
-2. Create the database and table. In HeidiSQL or phpMyAdmin, create a database called `drug_monitor`, then import `sql/schema.sql`. Or from the command line:
+2. Create the database and tables. In HeidiSQL or phpMyAdmin, create a database called `drug_monitor`, then import `sql/schema.sql`. Or from the command line:
 
    ```bash
    mysql -u root -e "CREATE DATABASE drug_monitor CHARACTER SET utf8mb4;"
    mysql -u root drug_monitor < sql/schema.sql
-   mysql -u root drug_monitor < sql/seed.sql
    ```
+
+   There is no seed file to import: each new visitor is auto-seeded with the sample drug list (see `includes/starter_drugs.php`).
 
 3. Copy the config template and adjust if needed:
 
@@ -58,7 +66,7 @@ This is the PHP + MySQL version, built to run on standard shared hosting (cPanel
 ## Deploying to shared hosting (cPanel)
 
 1. In cPanel, create a MySQL database and a database user, then add the user to the database with all privileges.
-2. Import `sql/schema.sql` into that database via phpMyAdmin. Optionally import `sql/seed.sql` for a sample drug list.
+2. Import `sql/schema.sql` into that database via phpMyAdmin.
 3. Copy `config.example.php` to `config.php` and fill in your cPanel database name, user and password. Note that cPanel usually prefixes them, for example `myacct_drugmonitor`.
 4. Upload the whole project into `public_html` (or a subfolder) using the File Manager or FTP.
 5. Make sure the `uploads/` folder is writable (permissions 755, or 775 if needed) so drug photos can be saved.
@@ -68,7 +76,17 @@ This is the PHP + MySQL version, built to run on standard shared hosting (cPanel
 
 ## Note on the database
 
-The Node.js version used MongoDB. This version uses MySQL, since shared hosting supports MySQL rather than MongoDB. Existing Mongo data does not carry over automatically; re-enter drugs through the Add Drug form, or import them into the `drugs` table directly.
+The Node.js version used MongoDB. This version uses MySQL, since shared hosting supports MySQL rather than MongoDB. There is no data to migrate: every new account starts from the built-in sample list in `includes/starter_drugs.php`, which you can edit to change the defaults.
+
+Guest accounts accumulate over time. To tidy up, periodically remove stale ones, for example guests not seen for 30 days:
+
+```sql
+DELETE FROM users WHERE username IS NULL AND last_seen < (NOW() - INTERVAL 30 DAY);
+```
+
+## Publishing in a subfolder
+
+All paths are relative, so the app runs fine from a subfolder such as `https://drugs.targetict.xyz/` or `https://targetict.xyz/drugs/`. Just upload the folder and make sure `uploads/` is writable. HTTPS is recommended (and required for the barcode scanner).
 
 ## Author
 

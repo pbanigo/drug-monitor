@@ -14,6 +14,7 @@ $is_bottle = ($v['unit_type'] ?? 'blister') === 'bottle';
 <?php endif; ?>
 
 <form class="form-card" action="<?= e($form_action) ?>" method="POST" enctype="multipart/form-data">
+  <?= csrf_field() ?>
   <?php if ($drug_id !== ''): ?>
     <input type="hidden" name="id" value="<?= e($drug_id) ?>">
   <?php endif; ?>

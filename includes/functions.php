@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/starter_drugs.php';
 
 // Escape output for safe HTML rendering.
 function e($value)
@@ -58,17 +60,19 @@ function dosage_summary(array $drug)
     return $parts ? implode(', ', $parts) : 'Not scheduled';
 }
 
-// Fetch every drug, alphabetically.
+// Fetch every drug for the current user, alphabetically.
 function get_all_drugs()
 {
-    return get_db()->query('SELECT * FROM drugs ORDER BY name ASC')->fetchAll();
+    $stmt = get_db()->prepare('SELECT * FROM drugs WHERE user_id = ? ORDER BY name ASC');
+    $stmt->execute([current_user_id()]);
+    return $stmt->fetchAll();
 }
 
-// Fetch a single drug by id, or null if not found.
+// Fetch a single drug by id (only if it belongs to the current user), or null.
 function get_drug($id)
 {
-    $stmt = get_db()->prepare('SELECT * FROM drugs WHERE id = ?');
-    $stmt->execute([$id]);
+    $stmt = get_db()->prepare('SELECT * FROM drugs WHERE id = ? AND user_id = ?');
+    $stmt->execute([$id, current_user_id()]);
     return $stmt->fetch() ?: null;
 }
 
@@ -83,10 +87,10 @@ function create_drug(array $data)
 {
     try {
         $stmt = get_db()->prepare(
-            'INSERT INTO drugs (name, strength, unit_type, morning, afternoon, evening, night, card, pack, pack_photo, pill_photo)
-             VALUES (:name, :strength, :unit_type, :morning, :afternoon, :evening, :night, :card, :pack, :pack_photo, :pill_photo)'
+            'INSERT INTO drugs (user_id, name, strength, unit_type, morning, afternoon, evening, night, card, pack, pack_photo, pill_photo)
+             VALUES (:user_id, :name, :strength, :unit_type, :morning, :afternoon, :evening, :night, :card, :pack, :pack_photo, :pill_photo)'
         );
-        $stmt->execute(drug_params($data));
+        $stmt->execute(drug_params($data) + [':user_id' => current_user_id()]);
         return true;
     } catch (PDOException $e) {
         return $e->getCode() === '23000'
@@ -104,9 +108,9 @@ function update_drug($id, array $data)
                 name = :name, strength = :strength, unit_type = :unit_type,
                 morning = :morning, afternoon = :afternoon, evening = :evening, night = :night,
                 card = :card, pack = :pack, pack_photo = :pack_photo, pill_photo = :pill_photo
-             WHERE id = :id'
+             WHERE id = :id AND user_id = :user_id'
         );
-        $stmt->execute(drug_params($data) + [':id' => (int) $id]);
+        $stmt->execute(drug_params($data) + [':id' => (int) $id, ':user_id' => current_user_id()]);
         return true;
     } catch (PDOException $e) {
         return $e->getCode() === '23000'
@@ -172,10 +176,34 @@ function purchase_plan(array $drug, $days, $remaining = 0)
     return $plan;
 }
 
-// Delete a drug by id.
+// Delete a drug by id (only if it belongs to the current user).
 function delete_drug($id)
 {
-    return get_db()->prepare('DELETE FROM drugs WHERE id = ?')->execute([(int) $id]);
+    return get_db()->prepare('DELETE FROM drugs WHERE id = ? AND user_id = ?')
+        ->execute([(int) $id, current_user_id()]);
+}
+
+// Copy the starter sample drugs into a new account.
+function seed_user_drugs($user_id)
+{
+    $stmt = get_db()->prepare(
+        'INSERT INTO drugs (user_id, name, strength, unit_type, morning, afternoon, evening, night, card, pack)
+         VALUES (:user_id, :name, :strength, :unit_type, :morning, :afternoon, :evening, :night, :card, :pack)'
+    );
+    foreach (starter_drugs() as $d) {
+        $stmt->execute([
+            ':user_id'   => (int) $user_id,
+            ':name'      => $d['name'],
+            ':strength'  => $d['strength'] !== '' ? $d['strength'] : null,
+            ':unit_type' => $d['unit_type'],
+            ':morning'   => $d['morning'],
+            ':afternoon' => $d['afternoon'],
+            ':evening'   => $d['evening'],
+            ':night'     => $d['night'],
+            ':card'      => $d['card'],
+            ':pack'      => $d['pack'],
+        ]);
+    }
 }
 
 define('UPLOAD_DIR', __DIR__ . '/../uploads');
@@ -219,3 +247,6 @@ function delete_upload($filename)
         @unlink(UPLOAD_DIR . '/' . $filename);
     }
 }
+
+// Establish the session and current user now that all helpers are defined.
+auth_bootstrap();

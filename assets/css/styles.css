@@ -118,6 +118,20 @@ body {
 }
 .nav-links a:hover { color: var(--text); background: var(--surface-2); }
 .nav-links a.active { color: var(--primary); background: var(--primary-soft); }
+.nav-links .nav-user { color: var(--text); font-weight: 600; font-size: .9rem; padding: 8px 10px; display: inline-flex; align-items: center; gap: 6px; }
+.nav-links a.nav-cta { color: #fff; background: var(--primary); }
+.nav-links a.nav-cta:hover { background: var(--primary-600); color: #fff; }
+.nav-links a.nav-cta-ghost { border: 1px solid var(--border); }
+
+.guest-banner {
+  background: var(--primary-soft);
+  color: var(--primary);
+  text-align: center;
+  font-size: .88rem;
+  padding: 9px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary) 25%, var(--border));
+}
+.guest-banner a { color: var(--primary); font-weight: 700; text-decoration: underline; }
 
 .nav-toggle {
   display: none;

@@ -27,19 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $v['card'] = $_POST['card'] ?? '';
         $v['pack'] = $_POST['pack'] ?? '';
     }
-    // Keep existing photos unless a new one is uploaded.
-    $v['pack_photo'] = handle_image_upload('pack_photo', $existing['pack_photo']);
-    $v['pill_photo'] = handle_image_upload('pill_photo', $existing['pill_photo']);
-
-    if (trim($v['name']) === '') {
-        $error = 'Drug name is required.';
+    if (!csrf_check()) {
+        $error = 'Your session expired. Please try again.';
+        $v['pack_photo'] = $existing['pack_photo'];
+        $v['pill_photo'] = $existing['pill_photo'];
     } else {
-        $result = update_drug($id, $v);
-        if ($result === true) {
-            header('Location: manage.php');
-            exit;
+        // Keep existing photos unless a new one is uploaded.
+        $v['pack_photo'] = handle_image_upload('pack_photo', $existing['pack_photo']);
+        $v['pill_photo'] = handle_image_upload('pill_photo', $existing['pill_photo']);
+
+        if (trim($v['name']) === '') {
+            $error = 'Drug name is required.';
+        } else {
+            $result = update_drug($id, $v);
+            if ($result === true) {
+                header('Location: manage.php');
+                exit;
+            }
+            $error = $result;
         }
-        $error = $result;
     }
     $drug_id = $id;
 } else {
