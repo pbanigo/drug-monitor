@@ -2,3 +2,4 @@ config.php
 .env
 node_modules
 views/temp.ejs
+*.zip

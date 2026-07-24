@@ -11,6 +11,6 @@ function starter_drugs()
         ['name' => 'B12',         'strength' => '',       'unit_type' => 'bottle',  'morning' => 0, 'afternoon' => 1, 'evening' => 0, 'night' => 0, 'card' => null, 'pack' => 100],
         ['name' => 'Calcium',     'strength' => '',       'unit_type' => 'bottle',  'morning' => 0, 'afternoon' => 1, 'evening' => 0, 'night' => 0, 'card' => null, 'pack' => 100],
         ['name' => 'Simvastatin', 'strength' => '20mg',   'unit_type' => 'blister', 'morning' => 0, 'afternoon' => 0, 'evening' => 1, 'night' => 0, 'card' => 14,   'pack' => 28],
-        ['name' => 'Vasoprin',    'strength' => '',       'unit_type' => 'blister', 'morning' => 0, 'afternoon' => 0, 'evening' => 0, 'night' => 1, 'card' => 10,   'pack' => 100],
+        ['name' => 'Vasoprin',    'strength' => '',       'unit_type' => 'blister', 'morning' => 1, 'afternoon' => 0, 'evening' => 0, 'night' => 0, 'card' => 10,   'pack' => 100],
     ];
 }
